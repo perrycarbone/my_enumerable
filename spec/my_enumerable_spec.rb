@@ -67,4 +67,14 @@ describe 'MyEnumerable' do
       expect(@collection.count { |e| e.even? }).to eq(3)
     end
   end
+
+  context 'each_with_object' do
+    it 'iterates the block for each element and returns the initially provided object' do
+      expect(@collection.each_with_object([]) { |int, obj| obj << int*2 } ).to eq([4, 2, 8, 12, 10])
+    end
+
+    it 'returns an enumberator if a block is not provided' do
+      expect(@collection.each_with_object([])).to be_instance_of(Enumerator)
+    end
+  end
 end

@@ -1,20 +1,16 @@
 module MyEnumerable
 
   def map
-    result = []
     if block_given?
-      each { |element| result << yield(element) }
-      result
+      each_with_object([]) { |element, result| result << yield(element) }
     else
       @list.to_enum
     end
   end
 
   def select
-    result = []
     if block_given?
-      each { |element| result << element if yield(element) }
-      result
+      each_with_object([]) { |element, result| result << element if yield(element) }
     else
       @list.to_enum
     end
@@ -53,6 +49,15 @@ module MyEnumerable
       temp_array = []
       each { |element| temp_array << element if element == arg }
       temp_array.size
+    end
+  end
+
+  def each_with_object(obj)
+    if block_given?
+      each { |element| yield(element, obj) }
+      obj
+    else
+      @list.to_enum
     end
   end
 end
