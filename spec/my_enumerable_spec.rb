@@ -4,23 +4,18 @@ class ArrayWrapper
   attr_accessor :list
   include MyEnumerable
 
-  def initialize
-    @list = []
+  def initialize(*list)
+    @list = list
   end
 
   def each
     list.each { |element| yield(element) }
   end
-
-  def <<(new_element)
-    list << new_element
-  end
 end
 
 describe 'MyEnumerable' do
   before do
-    @collection = ArrayWrapper.new
-    @collection << 2 << 1 << 4 << 6 << 5
+    @collection = ArrayWrapper.new(2, 1, 4, 6, 5)
   end
 
   context 'map' do
