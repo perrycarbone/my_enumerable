@@ -8,6 +8,14 @@ module MyEnumerable
     end
   end
 
+  def map!
+    if block_given?
+      each_with_object(self) { |element, result| result = yield(element) }
+    else
+      @list.to_enum
+    end
+  end
+
   def select
     if block_given?
       each_with_object([]) { |element, result| result << element if yield(element) }
