@@ -68,4 +68,29 @@ module MyEnumerable
       @list.to_enum
     end
   end
-end
+
+  def sort_by
+    if block_given?
+      map { |element| [yield(element), element] }.sort.map { |element| element[1] }
+    else
+      @list.to_enum
+    end
+  end
+
+  def reduce(value_or_operation = nil)
+    case value_or_operation
+    when Symbol
+      return reduce { |memo, element| element.send(value_or_operation, memo) }
+    when nil
+      memo = nil
+    else
+      memo = value_or_operation
+    end
+
+    each do |element|
+      memo.nil? ? memo = element : memo = yield(memo, element)
+    end
+
+    return memo
+    end
+  end
