@@ -4,7 +4,7 @@ module MyEnumerable
     if block_given?
       each_with_object([]) { |element, result| result << yield(element) }
     else
-      @list.to_enum
+      @list.to_enum(:map)
     end
   end
 
@@ -12,7 +12,7 @@ module MyEnumerable
     if block_given?
       each_with_object(self) { |element, result| result = yield(element) }
     else
-      @list.to_enum
+      @list.to_enum(:map)
     end
   end
 
@@ -20,7 +20,7 @@ module MyEnumerable
     if block_given?
       each_with_object([]) { |element, result| result << element if yield(element) }
     else
-      @list.to_enum
+      @list.to_enum(:select)
     end
   end
 
@@ -65,7 +65,7 @@ module MyEnumerable
       each { |element| yield(element, obj) }
       obj
     else
-      @list.to_enum
+      @list.to_enum(:each_with_object)
     end
   end
 
@@ -73,7 +73,7 @@ module MyEnumerable
     if block_given?
       map { |element| [yield(element), element] }.sort.map { |element| element[1] }
     else
-      @list.to_enum
+      @list.to_enum(:sort_by)
     end
   end
 
